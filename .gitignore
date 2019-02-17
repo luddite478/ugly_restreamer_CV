@@ -2,6 +2,8 @@ piLog.sh
 test.sh
 test
 test/*
+configs/*
+configs
 video_tmp.264
 audio_tmp.mp2
 input_stream_segments/*
