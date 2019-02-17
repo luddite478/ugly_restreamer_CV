@@ -10,4 +10,5 @@ services:
   ffmpeg:
     image: simple_ffmpeg
     container_name: ffmpeg
+    runtime: nvidia
     command: sh -c 'sleep 1 && ffmpeg -re -i rtmp://nginx-rtmp:1935/live/test -c:v h264_nvenc -b:a 160k -b:v 1M -f flv rtmp://nginx-rtmp:1936/processed/test'
