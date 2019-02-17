@@ -8,13 +8,7 @@ Steps, which script perform:
 3. Splitting those chunks into audio and video tracks
 4. Processing video in python script
 5. Merging audio and video back and streaming somewhere
-
-TODOS:
-1. Segments auto-delete
-2. Make python-script process whole segment, not every frame i.e figure out why cpu is at 99%
-3. Connect ffmpeg processes in fn_process() with pipes somehow
-4. Fix many random bugs  
-
+  
 Libs used:
 ffmpeg
 opencv-python
