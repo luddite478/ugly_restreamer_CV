@@ -4,6 +4,8 @@ test
 test/*
 configs/*
 configs
+config
+.gitignore
 video_tmp.264
 audio_tmp.mp2
 input_stream_segments/*
