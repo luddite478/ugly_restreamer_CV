@@ -1,0 +1,3 @@
+[submodule "cpp_processing"]
+	path = cpp_processing
+	url = git@github.com:luddite478/cpp-cuda-opencv-ffmpeg-tests.git
