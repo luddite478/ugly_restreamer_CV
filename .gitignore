@@ -1,0 +1,16 @@
+piLog.sh
+test.sh
+test
+test/*
+video_tmp.264
+audio_tmp.mp2
+input_stream_segments/*
+processed_stream_segments/*
+*jpg
+*264
+*aac
+*log
+*avi
+*bitrate.shark
+*snippets.sh
+.config
