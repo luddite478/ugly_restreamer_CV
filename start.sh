@@ -9,17 +9,10 @@ export height="0"
 export width="0"
 export fps="0"
 export port="11111"
-<<<<<<< HEAD
-export output_stream_url="udp://0.0.0.0:1234"
-export input_stream_url="rtmp://192.168.0.104/live/stream"
-export segment_size="5"
-export curr_frame="0"
-=======
 export output_stream_url=$rtmp_out
 export input_stream_url=$rtmp_in
 export segment_size="10"
 export curr_segment="0"
->>>>>>> 2021d6f... clean up
 
 
 ./clearFolders.sh 2> /dev/null
@@ -50,22 +43,12 @@ fn_process() {
     filename="$curr_frame.ts"
     echo "PROCESSING $f ... "
 
-<<<<<<< HEAD
-    ffmpeg -loglevel warning -y -i "$dir/$filename" -vn -sn -c:a copy "audio_tmp.aac"
-=======
     ffmpeg -loglevel warning -y -i "$dir/$filename" -vn -sn -c:a copy "audio_tmp.ts"
->>>>>>> 2021d6f... clean up
 
     python default.py $filename $height $width | ffmpeg -loglevel warning -y -r $fps -f image2pipe -i - -c:v libx264 -pix_fmt yuv420p \
     -avoid_negative_ts make_zero -fflags +genpts "video_tmp.avi"
 
-<<<<<<< HEAD
-    ffmpeg -loglevel warning -y -r $fps \
-    -i "./video_tmp.avi" -i "./audio_tmp.aac"  \
-    -c:a copy -c:v copy -avoid_negative_ts make_zero -fflags +genpts "./processed_stream_segments/$curr_frame.avi"
-=======
     ffmpeg -t 10 -i "./video_tmp.ts" -t 10 -i "./input_stream_segments/$filename" -map 0:v:0 -map 1:a:0 -y "./processed_stream_segments/$curr_segment.mp4"
->>>>>>> 2021d6f... clean up
 
     curr_frame=$((curr_frame+1))
     if (( curr_frame > "10" )); then curr_frame="0"; fi
