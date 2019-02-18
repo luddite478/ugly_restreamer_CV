@@ -35,14 +35,8 @@ fn_concat_end() {
 
 fn_concat_init
 
-<<<<<<< HEAD
-# ffmpeg -y -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -q 1 -c:v libx264 -c:a copy -f mpegts "$output_stream_url" &
-ffmpeg -y -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v libx264 -f mpegts udp://0.0.0.0:1234  &
-=======
-ffmpeg -y -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v libx264 -f flv $output_stream_url &
-# ffmpeg -y -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v libx264 yo.mp4 &
+ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v  -f flv $output_stream_url &
 
->>>>>>> 2021d6f... clean up
 ffmpegPID=$!
 
 inotifywait -q -e close_write -m --format "%f" $watch_dir |
