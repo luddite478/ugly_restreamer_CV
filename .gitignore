@@ -21,3 +21,5 @@ processed_stream_segments/*
 concat.*
 app
 app.o
+*.ts
+*.mp4
