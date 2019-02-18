@@ -1,4 +1,5 @@
-version: "3"
+
+version: "2"
 services:
 
   nginx-rtmp:
@@ -7,8 +8,13 @@ services:
     ports:
       - "1935:1935"
       - "1936:1936"
-  ffmpeg:
-    image: simple_ffmpeg
-    container_name: ffmpeg
-    runtime: nvidia
-    command: sh -c 'sleep 1 && ffmpeg -re -i rtmp://nginx-rtmp:1935/live/test -c:v h264_nvenc -b:a 160k -b:v 1M -f flv rtmp://nginx-rtmp:1936/processed/test'
+  processing-module:
+    image: processing-module
+    container_name: processor
+   # volumes: 
+   #   - /usr/stream/ugly/ugly/ugly_restreamer_CV:/usr/stream
+
+ #  ffmpeg:
+ #   image: simple_ffmpeg
+ #   container_name: ffmpeg
+ #   command: sh -c 'sleep 1 && ffmpeg -re -i rtmp://nginx-rtmp:1935/live/test -c:v copy -b:a 160k -b:v 1M -f flv rtmp://nginx-rtmp:1936/processed/test'

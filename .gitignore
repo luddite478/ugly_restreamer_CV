@@ -18,3 +18,8 @@ processed_stream_segments/*
 *bitrate.shark
 *snippets.sh
 .config
+concat.*
+app
+app.o
+*.ts
+*.mp4

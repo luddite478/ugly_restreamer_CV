@@ -35,7 +35,7 @@ fn_concat_end() {
 
 fn_concat_init
 
-ffmpeg -y -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v libx264 -f flv $output_stream_url &
+ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v  -f flv $output_stream_url &
 
 ffmpegPID=$!
 

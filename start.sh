@@ -1,6 +1,6 @@
   #!/bin/bash
 
-. /.config
+. config/.config
 
 ################################################################################
 
@@ -13,7 +13,6 @@ export output_stream_url=$rtmp_out
 export input_stream_url=$rtmp_in
 export segment_size="10"
 export curr_segment="0"
-
 
 ./clearFolders.sh 2> /dev/null
 
