@@ -13,5 +13,3 @@ Libs used:
 ffmpeg
 opencv-python
 inotifytools
-
-sdf
