@@ -1,6 +1,6 @@
 #!/bin/bash
 
-watch_dir='processed_stream_segments'
+watch_dir=${output_dir:2}
 
 # Next 3 functions are from https://trac.ffmpeg.org/wiki/Concatenate
 
@@ -35,13 +35,14 @@ fn_concat_end() {
 
 fn_concat_init
 
-ffmpeg -y -loglevel $ff_loglvl -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v h264_cuvid -f flv $output_stream_url &
+ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v $ff_encoder -f flv $output_stream_url &
+# ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v $ff_encoder oupt.mp4 &
 
 ffmpegPID=$!
 
 inotifywait -q -e close_write -m --format "%f" $watch_dir |
 while read -r filename; do
-    printf "\n\n\n FOUND $filename FOR CONCATING \n\n\n"
+    printf "\n\n FOUND $filename FOR CONCATING \n\n"
     fn_concat_feed "$watch_dir/$filename"
 done
 
