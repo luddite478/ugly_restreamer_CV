@@ -3,7 +3,7 @@ import subprocess as sp
 import numpy as np
 import sys
 
-filename=sys.argv[1]
+file_path=sys.argv[1]
 h=int(sys.argv[2])
 w=int(sys.argv[3])
 
@@ -28,7 +28,7 @@ def process_frame(image):
 
 command = [ "ffmpeg",
         "-loglevel", "warning",
-        '-i', './input_stream_segments/{}'.format(filename),
+        '-i', file_path,
         '-pix_fmt', 'bgr24',
         '-vcodec', 'rawvideo',
         '-an','-sn',
