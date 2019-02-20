@@ -35,15 +35,13 @@ fn_concat_end() {
 
 fn_concat_init
 
-ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v  -f flv $output_stream_url &
+ffmpeg -y -loglevel $ff_loglvl -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v h264_cuvid -f flv $output_stream_url &
 
 ffmpegPID=$!
 
 inotifywait -q -e close_write -m --format "%f" $watch_dir |
 while read -r filename; do
-    echo "################################################################################"
-    echo "###################### FOUND $filename FOR CONCATING ###########################"
-    echo "################################################################################"
+    printf "\n\n\n FOUND $filename FOR CONCATING \n\n\n"
     fn_concat_feed "$watch_dir/$filename"
 done
 
