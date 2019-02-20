@@ -7,6 +7,13 @@ filename=sys.argv[1]
 h=int(sys.argv[2])
 w=int(sys.argv[3])
 
+def process_frame_test_bw(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    bw_3d = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+    ret, jpeg = cv2.imencode('.jpg', bw_3d)
+    sys.stdout.write(jpeg.tobytes())
+    pipe.stdout.flush()
+
 def process_frame(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blured = cv2.GaussianBlur(gray, (5,5), 0)
@@ -15,7 +22,6 @@ def process_frame(image):
     edges_3d[np.logical_or(edges_3d, 0)] = 1
     edges_3d*=np.uint8([255,171,0])
     edges_3d = cv2.GaussianBlur(edges_3d, (5,5), 0)
-    # ret, jpeg = cv2.imencode('.jpg', edges_3d)
     ret, jpeg = cv2.imencode('.jpg', edges_3d)
     sys.stdout.write(jpeg.tobytes())
     pipe.stdout.flush()
@@ -41,7 +47,7 @@ while True:
         #
         # if cv2.waitKey(1) & 0xFF == ord('q'):
         #     break
-        process_frame(image)
+        process_frame_test_bw(image)
         pipe.stdout.flush()
     else:
         break
