@@ -11,8 +11,8 @@ services:
   processing-module:
     image: processing-module
     container_name: processor
-   # volumes: 
-   #   - /usr/stream/ugly/ugly/ugly_restreamer_CV:/usr/stream
+    #volumes: 
+    #  - /usr/stream/ugly/ugly/ugly_restreamer_CV:/usr/stream
 
  #  ffmpeg:
  #   image: simple_ffmpeg

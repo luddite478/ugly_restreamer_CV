@@ -37,6 +37,7 @@ fn_concat_init
 
 ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v $ff_encoder -f flv $output_stream_url &
 # ffmpeg -y -loglevel warning -re -f concat -loglevel warning -safe 0 -i "${concat_pls:?}" -c:v $ff_encoder oupt.mp4 &
+
 ffmpegPID=$!
 
 inotifywait -q -e close_write -m --format "%f" $watch_dir |
