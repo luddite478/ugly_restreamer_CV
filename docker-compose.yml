@@ -1,4 +1,3 @@
-
 version: "2"
 services:
 
@@ -11,8 +10,8 @@ services:
   processing-module:
     image: processing-module
     container_name: processor
-   # volumes: 
-   #   - /usr/stream/ugly/ugly/ugly_restreamer_CV:/usr/stream
+    volumes:
+      - /usr/stream/ugly/ugly_restreamer_CV/processed_stream_segments:/usr/stream/processed_stream_segments
 
  #  ffmpeg:
  #   image: simple_ffmpeg
