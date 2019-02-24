@@ -3,12 +3,7 @@ import subprocess as sp
 import numpy as np
 import sys
 import time
-from signal import signal, SIGPIPE, SIG_DFL
-signal(SIGPIPE,SIG_DFL)
 
-filename=sys.argv[1]
-h=sys.argv[2]
-w=sys.argv[3]
 
 def process_frame(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -18,41 +13,24 @@ def process_frame(image):
     edges_3d[np.logical_or(edges_3d, 0)] = 1
     edges_3d*=np.uint8([255,171,0])
     edges_3d = cv2.GaussianBlur(edges_3d, (5,5), 0)
-    ret, jpeg = cv2.imencode('.jpg', edges_3d)
-    sys.stdout.write(jpeg.tobytes())
-    pipe.stdout.flush()
-
-command = [ "ffmpeg",
-        '-i', './input_stream_segments/1.avi',
-        '-pix_fmt', 'bgr24',
-        '-vcodec', 'rawvideo',
-        '-an','-sn',
-        '-f', 'image2pipe', '-']
+    return edges_3d
 
 
-pipe = sp.Popen(command, stdout = sp.PIPE, bufsize=10**8)
 
+cap = cv2.VideoCapture(0)
 
-starttime = time.time()
-try:
+while(True):
+    # Capture frame-by-frame
+    ret, frame = cap.read()
 
-    while True:
-        raw_image = pipe.stdout.read(w*h*3)
+    # Our operations on the frame come here
+    gray = process_frame(frame)
 
-        if len(raw_image) != 0:
-            image =  np.fromstring(raw_image, dtype='uint8')
-            image = image.reshape((h,w,3))
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            ret, jpeg = cv2.imencode('.jpg', gray)
-            sys.stdout.write(jpeg.tobytes())
-            pipe.stdout.flush()
-            process_frame(image)
-        else:
-            break
+    # Display the resulting frame
+    cv2.imshow('frame',gray)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-    file = open("testfile.txt","w")
-    file.write(str(time.time()-starttime)+'\n')
-except:
-    print('sdfsdf')
-    file = open("testfile.txt","w")
-    file.write(str(time.time()-starttime)+'\n')
+# When everything done, release the capture
+cap.release()
+cv2.destroyAllWindows()

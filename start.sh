@@ -45,6 +45,7 @@ fn_process() {
 
 inotifywait -q -e close_write -m --format "%f" $input_dir |
 while read -r f; do
+  start=$(date +%s%3N)
 
   filename="$curr_segment.mp4"
 
@@ -53,19 +54,19 @@ while read -r f; do
   height=$(echo $params | cut -d' ' -f2)
   fps=$(echo $params | cut -d' ' -f3)
 
-  echo "PROCESSING $filename ... "
-  echo "WIDTH = $width"
-  echo "HEIGHT = $height"
-  echo "FPS = $fps"
+  printf "PROCESSING $filename ... \nWIDTH = $width HEIGHT = $height FPS = $fps"
 
   if [[ $hardware_acceleration == "GPU" ]]; then
     ./app "$input_dir/$filename" $width $height $fps $ff_decoder $ff_encoder $ff_loglvl
   else
-    python default.py "$input_dir/$filename" $height $width | ffmpeg -loglevel $ff_loglvl -y -r $fps -f image2pipe -i - -c:v $ff_encoder -pix_fmt yuv420p \
+    time python default.py "$input_dir/$filename" $height $width | ffmpeg -loglevel $ff_loglvl -y -r $fps -f image2pipe -i - -c:v $ff_encoder -pix_fmt yuv420p \
     -avoid_negative_ts make_zero -fflags +genpts "video_tmp.mp4"
   fi
 
   ffmpeg -loglevel warning -t $segment_size -i "./video_tmp.mp4" -t $segment_size -i "$input_dir/$filename" -map 0:v:0 -map 1:a:0 -c:v $ff_encoder -qp 1 -y "$output_dir/$curr_segment.mp4"
+
+  end=$(date +%s%3N)
+  printf "\n\n fn_process runtime: $((end-start)) \n\n"
 
   curr_segment=$((curr_segment+1))
   if (( curr_segment > "4" )); then curr_segment="0"; fi
