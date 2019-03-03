@@ -17,7 +17,7 @@ export segment_size="5"
 export curr_segment="0"
 export ff_loglvl="quiet"
 export hardware_acceleration=$1
-export time_window="4"
+export time_window="4000"
 
 if [[ $hardware_acceleration == "GPU" ]]; then
 export ff_decoder="h264_cuvid"
@@ -39,9 +39,9 @@ fn_wait_next_n_sec_for_new_file_if_no_file_restart() {
     last_segment_processed_time=$1
     now=$(date +%s%3N)
 
-    if [[ $(($now - $last_segment_processed_time)) -mt $time_window ]]; then
+    if [[ $(($now - $last_segment_processed_time)) -gt $time_window ]]; then
       printf "\n\n LAST SEGMENT RECEIVED MORE THAN 4 SEC AGO, RESTARTING ... \n\n"
-      exec "./start.sh"
+      exec "./start.sh $hardware_acceleration"
     fi
     sleep 0.05
   done
@@ -74,7 +74,7 @@ while read -r f; do
 
   if [[ $width == "0" ]] || [[ $height == "0" ]]; then
     printf "\n\n BAD SEGMENT WITH WIDTH $width , HEIGHT $height and FPS $fps, RESTARTING"
-    exec "./start.sh"
+    exec "./start.sh $hardware_acceleration"
   fi
   printf "PROCESSING $filename ... \nWIDTH = $width HEIGHT = $height FPS = $fps"
 
