@@ -43,7 +43,7 @@ fn_wait_next_n_sec_for_new_file_if_no_file_restart() {
       printf "\n\n LAST SEGMENT RECEIVED MORE THAN 4 SEC AGO, RESTARTING ... \n\n"
       exec "./start.sh"
     fi
-    sleep 0.01
+    sleep 0.05
   done
 }
 
@@ -72,6 +72,10 @@ while read -r f; do
   height=$(echo $params | cut -d' ' -f2)
   fps=$(echo $params | cut -d' ' -f3)
 
+  if [[ $width == "0" ]] || [[ $height == "0" ]]; then
+    printf "\n\n BAD SEGMENT WITH WIDTH $width , HEIGHT $height and FPS $fps, RESTARTING"
+    exec "./start.sh"
+  fi
   printf "PROCESSING $filename ... \nWIDTH = $width HEIGHT = $height FPS = $fps"
 
   if [[ $hardware_acceleration == "GPU" ]]; then
