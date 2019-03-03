@@ -10,7 +10,9 @@ services:
   processing-module:
     image: processing-module
     container_name: processor
-    #volumes: 
+    depends_on:
+      - "nginx-rtmp"
+    #volumes:
     #  - /usr/stream/ugly/ugly/ugly_restreamer_CV:/usr/stream
 
  #  ffmpeg:
